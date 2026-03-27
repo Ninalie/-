@@ -79,7 +79,7 @@ const Navbar = () => {
       <div className="flex items-center gap-6 min-w-[200px] justify-end">
         <div className="hidden sm:flex items-center gap-2">
           <img 
-            src="https://picsum.photos/seed/nina/100/100" 
+            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100&h=100" 
             alt="User Avatar" 
             className="w-8 h-8 rounded-full border border-black/5 object-cover"
           />
@@ -93,7 +93,7 @@ const Navbar = () => {
         >
           <button 
             onClick={() => navigate('/all-roadbooks')}
-            className="bg-primary text-primary-foreground px-6 py-2 rounded-full text-sm font-bold hover:opacity-90 transition-all flex items-center gap-2 shadow-lg shadow-primary/20"
+            className="bg-white border border-black/10 text-foreground/80 px-6 py-2 rounded-full text-sm font-bold hover:bg-black/5 transition-all flex items-center gap-2 shadow-sm"
           >
             我的路书
             <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} />
@@ -143,6 +143,16 @@ const Navbar = () => {
             )}
           </AnimatePresence>
         </div>
+
+        <button 
+          onClick={() => {
+            navigate('/');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className="bg-primary text-primary-foreground px-6 py-2 rounded-full text-sm font-bold hover:opacity-90 transition-all flex items-center gap-2 shadow-lg shadow-primary/20"
+        >
+          新建路书
+        </button>
       </div>
     </nav>
   );

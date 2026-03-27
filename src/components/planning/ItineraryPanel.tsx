@@ -36,16 +36,8 @@ const WaypointItem: React.FC<WaypointItemProps> = ({
 
   return (
     <div className="relative pl-10 group pb-8 last:pb-0">
-      {/* Timeline Line */}
-      <div className="absolute left-4 top-4 bottom-0 w-px bg-black/5 group-last:hidden" />
-      
       {/* Icon */}
-      <div className={`absolute left-0 top-1 w-8 h-8 rounded-full flex items-center justify-center z-10 border-2 border-white shadow-sm transition-transform group-hover:scale-110 ${
-        type === 'start' ? 'bg-black' :
-        type === 'end' ? 'bg-black' :
-        type === 'charge' ? 'bg-primary' :
-        'bg-primary/40'
-      }`}>
+      <div className="absolute left-0 top-1 w-8 h-8 rounded-full flex items-center justify-center z-10 border-2 border-white shadow-sm transition-transform group-hover:scale-110 bg-black">
         {type === 'start' && <Navigation className="w-4 h-4 text-white" />}
         {type === 'end' && <MapPin className="w-4 h-4 text-white" />}
         {type === 'charge' && <Zap className="w-4 h-4 text-white" />}
@@ -216,6 +208,9 @@ export const ItineraryPanel = () => {
             </div>
 
             <div className="space-y-4 relative">
+              {/* Timeline Line for the day's waypoints */}
+              <div className="absolute left-4 top-4 bottom-0 w-px bg-black/5" />
+              
               <WaypointItem 
                 time="09:00" 
                 title="广州出发" 
@@ -245,24 +240,6 @@ export const ItineraryPanel = () => {
             </div>
           </div>
         ))}
-      </div>
-
-      {/* Summary Footer */}
-      <div className="p-6 border-t border-black/5 bg-black/[0.02]">
-        <div className="flex items-center gap-6 mb-4">
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] text-muted-foreground font-bold uppercase whitespace-nowrap">总里程</span>
-            <span className="text-sm font-bold">1,850 km</span>
-          </div>
-          <div className="w-px h-4 bg-black/10" />
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] text-muted-foreground font-bold uppercase whitespace-nowrap">预计充电</span>
-            <span className="text-sm font-bold">8 次</span>
-          </div>
-        </div>
-        <button className="w-full bg-black text-white py-3 rounded-2xl font-bold shadow-lg shadow-black/10 hover:bg-primary hover:shadow-xl hover:-translate-y-0.5 transition-all">
-          发送到爱车
-        </button>
       </div>
     </div>
   );

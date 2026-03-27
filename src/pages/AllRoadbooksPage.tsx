@@ -23,7 +23,7 @@ const mockRoadbooks: Roadbook[] = [
     dateRange: '2026.03.25 - 03.30',
     days: 6,
     type: 'planned',
-    image: 'https://picsum.photos/seed/yunnan/400/250',
+    image: 'https://images.unsplash.com/photo-1542361345-89ce1f116658?auto=format&fit=crop&q=80&w=400&h=250',
     stops: 12,
     distance: '1850km'
   },
@@ -34,7 +34,7 @@ const mockRoadbooks: Roadbook[] = [
     dateRange: '2026.03.20 - 03.21',
     days: 2,
     type: 'checked-in',
-    image: 'https://picsum.photos/seed/shunde/400/250',
+    image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&q=80&w=400&h=250',
     stops: 8,
     distance: '60km'
   },
@@ -45,7 +45,7 @@ const mockRoadbooks: Roadbook[] = [
     dateRange: '2026.04.15 - 04.22',
     days: 8,
     type: 'planned',
-    image: 'https://picsum.photos/seed/chuanxi/400/250',
+    image: 'https://images.unsplash.com/photo-1513026705753-bc3fffca8bf4?auto=format&fit=crop&q=80&w=400&h=250',
     stops: 15,
     distance: '1200km'
   },
@@ -56,7 +56,7 @@ const mockRoadbooks: Roadbook[] = [
     days: 11,
     route: '海口 - 三亚',
     type: 'checked-in',
-    image: 'https://picsum.photos/seed/hainan/400/250',
+    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=400&h=250',
     stops: 20,
     distance: '800km'
   },
@@ -67,7 +67,7 @@ const mockRoadbooks: Roadbook[] = [
     days: 3,
     route: '上海 - 湖州',
     type: 'checked-in',
-    image: 'https://picsum.photos/seed/moganshan/400/250',
+    image: 'https://images.unsplash.com/photo-1536250853075-e8504ee040b9?auto=format&fit=crop&q=80&w=400&h=250',
     stops: 5,
     distance: '200km'
   },
@@ -78,7 +78,7 @@ const mockRoadbooks: Roadbook[] = [
     dateRange: '收藏于 2026.03.27',
     days: 5,
     type: 'favorite',
-    image: 'https://picsum.photos/seed/sichuan/400/250',
+    image: 'https://images.unsplash.com/photo-1542361345-89ce1f116658?auto=format&fit=crop&q=80&w=400&h=250',
     stops: 6,
     distance: '1200km'
   },
@@ -89,7 +89,7 @@ const mockRoadbooks: Roadbook[] = [
     dateRange: '收藏于 2026.03.26',
     days: 3,
     type: 'favorite',
-    image: 'https://picsum.photos/seed/xinjiang/400/250',
+    image: 'https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?auto=format&fit=crop&q=80&w=400&h=250',
     stops: 5,
     distance: '560km'
   }
@@ -111,12 +111,6 @@ export const AllRoadbooksPage = () => {
             <h1 className="text-3xl font-bold text-foreground">全部路书</h1>
             <p className="text-muted-foreground mt-2">管理你的每一次智驾旅程</p>
           </div>
-          <button 
-            onClick={() => navigate('/')}
-            className="bg-white text-foreground/80 border border-black/10 px-6 py-2.5 rounded-full font-bold hover:bg-black/5 transition-all shadow-sm"
-          >
-            新建路书
-          </button>
         </div>
 
         {/* Tabs */}
@@ -149,10 +143,10 @@ export const AllRoadbooksPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
-              className="group bg-white rounded-3xl border border-black/5 overflow-hidden hover:shadow-xl transition-all cursor-pointer"
+              className="group bg-white rounded-[32px] border border-black/5 overflow-hidden hover:shadow-2xl hover:shadow-black/5 transition-all duration-500 cursor-pointer"
               onClick={() => rb.type === 'favorite' ? navigate(`/roadbook/${rb.id === '6' ? '1' : '2'}`) : navigate('/planning')}
             >
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative h-56 overflow-hidden">
                 <img 
                   src={rb.image} 
                   alt={rb.title}
@@ -160,13 +154,10 @@ export const AllRoadbooksPage = () => {
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute top-4 left-4">
-                  <span className={`px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg border-2 ${
-                    rb.type === 'planned' 
-                      ? 'bg-blue-600 border-white text-white' 
-                      : rb.type === 'checked-in'
-                        ? 'bg-emerald-600 border-white text-white'
-                        : 'bg-amber-500 border-white text-white'
-                  }`}>
+                  <span className="px-3 py-1.5 bg-white/90 backdrop-blur-md text-foreground text-[10px] font-bold rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1.5">
+                    {rb.type === 'planned' && <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />}
+                    {rb.type === 'checked-in' && <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />}
+                    {rb.type === 'favorite' && <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />}
                     {rb.type === 'planned' ? '计划中' : rb.type === 'checked-in' ? '已打卡' : '收藏'}
                   </span>
                 </div>

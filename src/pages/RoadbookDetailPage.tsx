@@ -30,12 +30,12 @@ const cases = [
     tag: "极致探险",
     summary: "这段旅程不仅是对车辆性能的考验，更是对心灵的洗礼。从成都出发，一路向西，海拔逐渐升高，景色也愈发壮丽。折多山的云海、贡嘎雪山的日落，每一刻都值得铭记。",
     waypoints: [
-      { name: "成都", type: "start", desc: "出发点，满电出发" },
-      { name: "雅安", type: "charge", desc: "快充补能，品尝雅鱼" },
-      { name: "康定", type: "stay", desc: "情歌故乡，海拔适应" },
-      { name: "折多山", type: "attraction", desc: "康巴第一关，云海奇观" },
-      { name: "新都桥", type: "stay", desc: "摄影家的天堂" },
-      { name: "贡嘎观景台", type: "end", desc: "直面蜀山之王" }
+      { day: 1, date: "3月25日", name: "成都", type: "start", desc: "出发点，满电出发" },
+      { day: 1, date: "3月25日", name: "雅安", type: "charge", desc: "快充补能，品尝雅鱼" },
+      { day: 1, date: "3月25日", name: "康定", type: "stay", desc: "情歌故乡，海拔适应" },
+      { day: 2, date: "3月26日", name: "折多山", type: "attraction", desc: "康巴第一关，云海奇观" },
+      { day: 2, date: "3月26日", name: "新都桥", type: "stay", desc: "摄影家的天堂" },
+      { day: 3, date: "3月27日", name: "贡嘎观景台", type: "end", desc: "直面蜀山之王" }
     ]
   },
   {
@@ -49,11 +49,11 @@ const cases = [
     tag: "文明出行",
     summary: "独库公路，被誉为中国最美公路之一。一日历四季，十里不同天。在这里，我们不仅是风景的观赏者，更是环境的守护者。请带走垃圾，留下美好。",
     waypoints: [
-      { name: "独山子", type: "start", desc: "公路起点" },
-      { name: "乔尔玛", type: "attraction", desc: "烈士陵园，致敬筑路英雄" },
-      { name: "那拉提", type: "stay", desc: "空中草原" },
-      { name: "巴音布鲁克", type: "attraction", desc: "九曲十八弯日落" },
-      { name: "库车", type: "end", desc: "终点，大峡谷奇观" }
+      { day: 1, date: "7月10日", name: "独山子", type: "start", desc: "公路起点" },
+      { day: 1, date: "7月10日", name: "乔尔玛", type: "attraction", desc: "烈士陵园，致敬筑路英雄" },
+      { day: 2, date: "7月11日", name: "那拉提", type: "stay", desc: "空中草原" },
+      { day: 2, date: "7月11日", name: "巴音布鲁克", type: "attraction", desc: "九曲十八弯日落" },
+      { day: 3, date: "7月12日", name: "库车", type: "end", desc: "终点，大峡谷奇观" }
     ]
   }
 ];
@@ -125,42 +125,54 @@ export const RoadbookDetailPage = () => {
               行程轨迹
             </h2>
             <div className="space-y-0 relative">
-              {roadbook.waypoints.map((point, idx) => (
-                <motion.div 
-                  key={idx}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1 }}
-                  className="relative pl-12 pb-10 last:pb-0 group"
-                >
-                  {/* Timeline Line */}
-                  <div className="absolute left-[15px] top-4 bottom-0 w-px bg-black/5 group-last:hidden" />
-                  
-                  <div className={`absolute left-0 top-1 w-8 h-8 rounded-full flex items-center justify-center z-10 border-2 border-white shadow-sm transition-transform group-hover:scale-110
-                    ${point.type === 'start' ? 'bg-black' : 
-                      point.type === 'end' ? 'bg-black' : 
-                      point.type === 'charge' ? 'bg-primary' : 'bg-primary/40'}
-                  `}>
-                    {point.type === 'start' && <Navigation className="w-4 h-4 text-white" />}
-                    {point.type === 'end' && <MapPin className="w-4 h-4 text-white" />}
-                    {point.type === 'charge' && <Zap className="w-4 h-4 text-white" />}
-                    {point.type === 'attraction' && <Camera className="w-4 h-4 text-white" />}
-                    {point.type === 'stay' && <Info className="w-4 h-4 text-white" />}
-                  </div>
-                  <div className="bg-white p-6 rounded-2xl border border-black/5 hover:border-primary/20 transition-all hover:shadow-lg hover:shadow-black/5">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-lg font-bold">{point.name}</h3>
-                      {point.type === 'charge' && (
-                        <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">
-                          5个可用快充
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-sm text-muted-foreground">{point.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
+              {/* Continuous Timeline Line */}
+              <div className="absolute left-[15px] top-4 bottom-10 w-px bg-black/5" />
+              
+              {roadbook.waypoints.map((point, idx) => {
+                const isFirstOfDay = idx === 0 || roadbook.waypoints[idx - 1].day !== point.day;
+                return (
+                  <React.Fragment key={idx}>
+                    {isFirstOfDay && (
+                      <div className="relative pl-12 py-6">
+                        <div className="absolute left-[15px] top-1/2 -translate-y-1/2 -translate-x-1/2 bg-white px-3 py-1 rounded-full border border-primary/20 shadow-sm z-10 flex items-center gap-2">
+                          <span className="text-xs font-bold text-primary">Day {point.day}</span>
+                          <span className="text-[10px] text-muted-foreground font-medium">{point.date}</span>
+                        </div>
+                      </div>
+                    )}
+                    <motion.div 
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: idx * 0.1 }}
+                      className="relative pl-12 pb-10 last:pb-0 group"
+                    >
+                      <div className={`absolute left-0 top-1 w-8 h-8 rounded-full flex items-center justify-center z-10 border-2 border-white shadow-sm transition-transform group-hover:scale-110
+                        ${point.type === 'start' ? 'bg-black' : 
+                          point.type === 'end' ? 'bg-black' : 
+                          point.type === 'charge' ? 'bg-primary' : 'bg-primary/40'}
+                      `}>
+                        {point.type === 'start' && <Navigation className="w-4 h-4 text-white" />}
+                        {point.type === 'end' && <MapPin className="w-4 h-4 text-white" />}
+                        {point.type === 'charge' && <Zap className="w-4 h-4 text-white" />}
+                        {point.type === 'attraction' && <Camera className="w-4 h-4 text-white" />}
+                        {point.type === 'stay' && <Info className="w-4 h-4 text-white" />}
+                      </div>
+                      <div className="bg-white p-6 rounded-2xl border border-black/5 hover:border-primary/20 transition-all hover:shadow-lg hover:shadow-black/5">
+                        <div className="flex items-center justify-between mb-2">
+                          <h3 className="text-lg font-bold">{point.name}</h3>
+                          {point.type === 'charge' && (
+                            <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">
+                              5个可用快充
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-sm text-muted-foreground">{point.desc}</p>
+                      </div>
+                    </motion.div>
+                  </React.Fragment>
+                );
+              })}
             </div>
           </section>
         </div>

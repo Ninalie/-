@@ -186,15 +186,26 @@ export const SelectionPanel = ({
               className="space-y-4"
             >
               {selectedItems.length > 0 ? (
-                selectedItems.map(item => (
-                  <LocationCard 
-                    key={item.id} 
-                    item={item} 
-                    onAction={onRemove}
-                    actionType="remove"
-                    onHover={onHover}
-                  />
-                ))
+                selectedItems.map((item, idx) => {
+                  const isFirstOfDay = idx === 0 || selectedItems[idx - 1].day !== item.day;
+                  return (
+                    <React.Fragment key={item.id}>
+                      {isFirstOfDay && item.day && (
+                        <div className="flex items-center gap-2 py-2">
+                          <span className="text-xs font-bold text-primary">Day {item.day}</span>
+                          <span className="text-[10px] text-muted-foreground font-medium">{item.date}</span>
+                          <div className="flex-1 h-px bg-black/5" />
+                        </div>
+                      )}
+                      <LocationCard 
+                        item={item} 
+                        onAction={onRemove}
+                        actionType="remove"
+                        onHover={onHover}
+                      />
+                    </React.Fragment>
+                  );
+                })
               ) : (
                 <div className="flex flex-col items-center justify-center py-20 text-center space-y-4 border-2 border-dashed border-black/5 rounded-[32px]">
                   <div className="w-12 h-12 rounded-full bg-black/5 flex items-center justify-center">

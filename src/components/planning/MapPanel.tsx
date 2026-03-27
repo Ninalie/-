@@ -46,7 +46,7 @@ export const MapPanel = ({ items, hoveredItemId, onHover, activeFilter }: MapPan
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0 }}
-        className="absolute cursor-pointer group z-10"
+        className={`absolute cursor-pointer group ${isHovered || selectedMapItem?.id === item.id ? 'z-50' : 'z-30'}`}
         style={{ top, left }}
         onMouseEnter={() => onHover(item.id)}
         onMouseLeave={() => onHover(null)}
@@ -150,6 +150,20 @@ export const MapPanel = ({ items, hoveredItemId, onHover, activeFilter }: MapPan
         </div>
       </div>
 
+      {/* Date Split Points on Route */}
+      <div className="absolute z-20" style={{ top: `${routePoints[6].y}%`, left: `${routePoints[6].x}%` }}>
+        <div className="px-2 py-0.5 bg-white/90 backdrop-blur-md text-primary text-[9px] font-bold rounded-full shadow-sm border border-primary/20 -translate-x-1/2 -translate-y-1/2 flex items-center gap-1">
+          <span>Day 2</span>
+          <span className="text-muted-foreground font-medium">3月26日</span>
+        </div>
+      </div>
+      <div className="absolute z-20" style={{ top: `${routePoints[12].y}%`, left: `${routePoints[12].x}%` }}>
+        <div className="px-2 py-0.5 bg-white/90 backdrop-blur-md text-primary text-[9px] font-bold rounded-full shadow-sm border border-primary/20 -translate-x-1/2 -translate-y-1/2 flex items-center gap-1">
+          <span>Day 3</span>
+          <span className="text-muted-foreground font-medium">3月27日</span>
+        </div>
+      </div>
+
       {/* Dynamic Markers */}
       <AnimatePresence>
         {items.map((item, index) => renderMarker(item, index))}
@@ -219,15 +233,31 @@ export const MapPanel = ({ items, hoveredItemId, onHover, activeFilter }: MapPan
         </button>
       </div>
 
-      <div className="absolute top-6 right-6">
-        <div className="px-4 py-2 bg-white/80 backdrop-blur-md rounded-2xl border border-black/5 shadow-lg flex items-center gap-3">
+      <div className="absolute top-6 right-6 z-40">
+        <div className="px-4 py-2.5 bg-white/90 backdrop-blur-md rounded-2xl border border-black/5 shadow-lg flex items-center gap-4">
           <div className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-full bg-primary" />
+            <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             <span className="text-[10px] font-bold text-foreground/60 uppercase tracking-wider">推荐路线</span>
           </div>
           <div className="w-px h-4 bg-black/10" />
-          <span className="text-xs font-bold">约 1450km · 18小时</span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-[10px] text-muted-foreground font-bold uppercase">总里程</span>
+            <span className="text-xs font-bold text-foreground">1,850 km</span>
+          </div>
+          <div className="w-px h-4 bg-black/10" />
+          <div className="flex items-center gap-1.5">
+            <span className="text-[10px] text-muted-foreground font-bold uppercase">预计充电</span>
+            <span className="text-xs font-bold text-foreground">8 次</span>
+          </div>
         </div>
+      </div>
+
+      {/* Send to Car Floating Button */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-40">
+        <button className="px-8 py-3.5 bg-black text-white rounded-full font-bold shadow-xl shadow-black/20 hover:bg-primary hover:shadow-primary/20 hover:-translate-y-1 transition-all flex items-center gap-2">
+          <Navigation className="w-4 h-4" />
+          发送到爱车
+        </button>
       </div>
     </div>
   );

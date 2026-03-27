@@ -16,6 +16,8 @@ export interface LocationItem {
   image: string;
   lat: number;
   lng: number;
+  day?: number;
+  date?: string;
 }
 
 export const PlanningPage = () => {
@@ -35,7 +37,9 @@ export const PlanningPage = () => {
       price: '$$$',
       image: 'https://picsum.photos/seed/dali-food/400/300',
       lat: 25.6985,
-      lng: 100.1635
+      lng: 100.1635,
+      day: 1,
+      date: '3月25日'
     },
     {
       id: '2',
@@ -46,7 +50,9 @@ export const PlanningPage = () => {
       reviews: 8500,
       image: 'https://picsum.photos/seed/erhai/400/300',
       lat: 25.6065,
-      lng: 100.2675
+      lng: 100.2675,
+      day: 1,
+      date: '3月25日'
     },
     {
       id: '3',
@@ -57,7 +63,9 @@ export const PlanningPage = () => {
       reviews: 120,
       image: 'https://picsum.photos/seed/dali-charge/400/300',
       lat: 25.6950,
-      lng: 100.1600
+      lng: 100.1600,
+      day: 2,
+      date: '3月26日'
     },
     {
       id: '9',
@@ -68,7 +76,9 @@ export const PlanningPage = () => {
       reviews: 12000,
       image: 'https://picsum.photos/seed/lijiang/400/300',
       lat: 26.8721,
-      lng: 100.2339
+      lng: 100.2339,
+      day: 2,
+      date: '3月26日'
     },
     {
       id: '10',
@@ -80,7 +90,9 @@ export const PlanningPage = () => {
       price: '$$$$',
       image: 'https://picsum.photos/seed/songzan/400/300',
       lat: 27.8275,
-      lng: 99.7065
+      lng: 99.7065,
+      day: 3,
+      date: '3月27日'
     }
   ];
 

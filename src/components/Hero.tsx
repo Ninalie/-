@@ -31,7 +31,7 @@ export const Hero = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center mb-8"
         >
-          <h1 className="font-serif text-[52px] md:text-[72px] font-bold leading-[1.1] text-foreground tracking-tight">
+          <h1 className="font-serif text-[52px] md:text-[72px] font-bold leading-[1.1] text-foreground tracking-[0.1em]">
             咕噜咕噜，
             <span className="relative inline-block">
               <span className="text-amber-500 italic px-2 relative z-10">快乐</span>
@@ -59,7 +59,7 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-6 text-center text-base md:text-xl text-muted-foreground max-w-[700px] leading-relaxed font-body"
+          className="mt-6 text-center text-base md:text-xl text-muted-foreground max-w-[700px] leading-relaxed font-body tracking-wide"
         >
           咕噜路书，陪你探索每一段充满惊喜的电车旅程，让自驾更简单
         </motion.p>
@@ -69,7 +69,7 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="mt-12 w-full max-w-[800px]"
+          className="mt-20 w-full max-w-[800px] relative z-20"
         >
           <div 
             className="rounded-2xl p-1"
