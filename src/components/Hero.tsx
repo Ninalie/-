@@ -6,7 +6,7 @@ import { AIDialogueBox } from './AIDialogueBox';
 export const Hero = () => {
   return (
     <section 
-      className="relative w-full overflow-hidden flex flex-col"
+      className="relative w-full overflow-hidden flex flex-col items-center justify-center"
       style={{ minHeight: 'calc(100vh - 64px)' }}
     >
       {/* Background Video */}
@@ -21,17 +21,15 @@ export const Hero = () => {
       </video>
 
       {/* Content Overlay */}
-      <div className="flex-1" />
-      
-      <div className="relative z-10 flex flex-col items-center w-full px-6">
+      <div className="relative z-10 flex flex-col items-center justify-center w-full px-4 sm:px-6 flex-1 py-12 md:py-20">
         {/* Headline */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center mb-8"
+          className="text-center mb-3 md:mb-5"
         >
-          <h1 className="font-serif text-[52px] md:text-[72px] font-bold leading-[1.1] text-foreground tracking-[0.1em]">
+          <h1 className="font-serif text-4xl sm:text-5xl md:text-[64px] lg:text-[72px] font-bold leading-[1.1] text-foreground tracking-[0.05em] md:tracking-[0.1em]">
             咕噜咕噜，
             <span className="relative inline-block">
               <span className="text-amber-500 italic px-2 relative z-10">快乐</span>
@@ -39,15 +37,15 @@ export const Hero = () => {
                 initial={{ width: 0 }}
                 animate={{ width: '100%' }}
                 transition={{ delay: 1, duration: 0.8, ease: "circOut" }}
-                className="absolute bottom-2 left-0 h-[30%] bg-amber-200/40 -z-0 rounded-sm"
+                className="absolute bottom-1 md:bottom-2 left-0 h-[30%] bg-amber-200/40 -z-0 rounded-sm"
               />
               <motion.span 
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 1.5, duration: 0.5 }}
-                className="absolute -top-2 -right-4"
+                className="absolute -top-1 md:-top-2 -right-3 md:-right-4"
               >
-                <Sparkles className="w-6 h-6 text-amber-400 fill-amber-400/20" />
+                <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-amber-400 fill-amber-400/20" />
               </motion.span>
             </span>
             满途
@@ -59,7 +57,7 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-6 text-center text-base md:text-xl text-muted-foreground max-w-[700px] leading-relaxed font-body tracking-wide"
+          className="text-center text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-[90%] md:max-w-[700px] leading-relaxed font-body tracking-wide mb-8 md:mb-12"
         >
           咕噜路书，陪你探索每一段充满惊喜的电车旅程，让自驾更简单
         </motion.p>
@@ -69,7 +67,7 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="mt-20 w-full max-w-[800px] relative z-20"
+          className="w-full max-w-[95%] sm:max-w-[600px] md:max-w-[800px] relative z-20"
         >
           <div 
             className="rounded-2xl p-1"
@@ -85,15 +83,12 @@ export const Hero = () => {
         </motion.div>
       </div>
       
-      {/* Adaptive Spacer */}
-      <div className="flex-1" />
-
       {/* Bottom Indicator */}
       <motion.div 
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2, duration: 1 }}
-        className="relative z-10 flex flex-col items-center pb-12"
+        className="relative z-10 flex flex-col items-center pb-8 md:pb-12 mt-auto"
       >
         <div className="relative flex items-center justify-center w-14 h-14">
           <motion.div
