@@ -1,0 +1,5 @@
+{
+  "name": "咕噜路书 (GuluDrive)",
+  "description": "AI电车自驾路书规划专家，咕噜咕噜，快乐满途。",
+  "requestFramePermissions": ["geolocation"]
+}
