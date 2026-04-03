@@ -23,7 +23,7 @@ const mockRoadbooks: Roadbook[] = [
     dateRange: '2026.03.25 - 03.30',
     days: 6,
     type: 'planned',
-    image: 'https://images.unsplash.com/photo-1542361345-89ce1f116658?auto=format&fit=crop&q=80&w=400&h=250',
+    image: 'https://picsum.photos/seed/dali/400/250',
     stops: 12,
     distance: '1850km'
   },
@@ -78,7 +78,7 @@ const mockRoadbooks: Roadbook[] = [
     dateRange: '收藏于 2026.03.27',
     days: 5,
     type: 'favorite',
-    image: 'https://images.unsplash.com/photo-1542361345-89ce1f116658?auto=format&fit=crop&q=80&w=400&h=250',
+    image: 'https://picsum.photos/seed/sichuan/400/250',
     stops: 6,
     distance: '1200km'
   },

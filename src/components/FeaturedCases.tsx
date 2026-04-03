@@ -8,7 +8,7 @@ const cases = [
     id: '1',
     title: "川西秘境：折多山与贡嘎雪山之约",
     description: "探索高原之美，体验极致驾驶。从小鹏超充站出发，无惧高海拔挑战，直抵雪山之巅。",
-    image: "https://images.unsplash.com/photo-1542361345-89ce1f116658?auto=format&fit=crop&q=80&w=800&h=1000",
+    image: "https://picsum.photos/seed/sichuan/800/1000",
     distance: "1200km",
     days: "5天",
     rating: "4.9",

@@ -6,7 +6,7 @@ import { AIDialogueBox } from './AIDialogueBox';
 export const Hero = () => {
   return (
     <section 
-      className="relative w-full overflow-hidden flex flex-col items-center justify-center"
+      className="relative w-full overflow-visible flex flex-col items-center justify-center"
       style={{ minHeight: 'calc(100vh - 64px)' }}
     >
       {/* Background Video */}
@@ -67,10 +67,10 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="w-full max-w-[95%] sm:max-w-[600px] md:max-w-[800px] relative z-20"
+          className="w-full max-w-[95%] sm:max-w-[600px] md:max-w-[800px] relative z-20 overflow-visible"
         >
           <div 
-            className="rounded-2xl p-1"
+            className="rounded-2xl p-1 overflow-visible"
             style={{
               background: 'rgba(255, 255, 255, 0.2)',
               border: '1px solid rgba(255, 255, 255, 0.3)',

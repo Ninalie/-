@@ -151,14 +151,14 @@ export const MapPanel = ({ items, hoveredItemId, onHover, activeFilter }: MapPan
       </div>
 
       {/* Date Split Points on Route */}
-      <div className="absolute z-20" style={{ top: `${routePoints[6].y}%`, left: `${routePoints[6].x}%` }}>
-        <div className="px-2 py-0.5 bg-white/90 backdrop-blur-md text-primary text-[9px] font-bold rounded-full shadow-sm border border-primary/20 -translate-x-1/2 -translate-y-1/2 flex items-center gap-1">
+      <div className="absolute z-[60]" style={{ top: `${routePoints[6].y}%`, left: `${routePoints[6].x}%` }}>
+        <div className="px-2 py-0.5 bg-white/90 backdrop-blur-md text-primary text-[9px] font-bold rounded-full shadow-sm border border-primary/20 -translate-x-1/2 translate-y-[60%] flex items-center gap-1">
           <span>Day 2</span>
           <span className="text-muted-foreground font-medium">3月26日</span>
         </div>
       </div>
-      <div className="absolute z-20" style={{ top: `${routePoints[12].y}%`, left: `${routePoints[12].x}%` }}>
-        <div className="px-2 py-0.5 bg-white/90 backdrop-blur-md text-primary text-[9px] font-bold rounded-full shadow-sm border border-primary/20 -translate-x-1/2 -translate-y-1/2 flex items-center gap-1">
+      <div className="absolute z-[60]" style={{ top: `${routePoints[12].y}%`, left: `${routePoints[12].x}%` }}>
+        <div className="px-2 py-0.5 bg-white/90 backdrop-blur-md text-primary text-[9px] font-bold rounded-full shadow-sm border border-primary/20 -translate-x-1/2 translate-y-[60%] flex items-center gap-1">
           <span>Day 3</span>
           <span className="text-muted-foreground font-medium">3月27日</span>
         </div>
@@ -173,10 +173,10 @@ export const MapPanel = ({ items, hoveredItemId, onHover, activeFilter }: MapPan
       <AnimatePresence>
         {selectedMapItem && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            initial={{ opacity: 0, y: -20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="absolute bottom-24 left-1/2 -translate-x-1/2 w-72 bg-white rounded-3xl shadow-2xl border border-black/5 overflow-hidden z-50"
+            exit={{ opacity: 0, y: -20, scale: 0.9 }}
+            className="absolute top-24 left-1/2 -translate-x-1/2 w-72 bg-white rounded-3xl shadow-2xl border border-black/5 overflow-hidden z-[100]"
           >
             <div className="relative h-28">
               <img 

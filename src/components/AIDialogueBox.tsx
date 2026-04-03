@@ -39,29 +39,29 @@ const CustomCalendar = ({ value, onSelect }: { value: string, onSelect: (date: s
   const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
 
   return (
-    <div className="p-4 w-64 bg-white select-none">
-      <div className="flex items-center justify-between mb-4">
+    <div className="p-2 w-52 bg-white select-none">
+      <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-1">
-          <span className="text-sm font-bold text-foreground">{year}年{month + 1}月</span>
-          <ChevronDown className="w-3 h-3 text-muted-foreground" />
+          <span className="text-xs font-bold text-foreground">{year}年{month + 1}月</span>
+          <ChevronDown className="w-2.5 h-2.5 text-muted-foreground" />
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-1.5">
           <button onClick={prevMonth} className="p-1 hover:bg-black/5 rounded-full transition-colors">
-            <ChevronLeftIcon className="w-4 h-4 text-foreground/60" />
+            <ChevronLeftIcon className="w-3.5 h-3.5 text-foreground/60" />
           </button>
           <button onClick={nextMonth} className="p-1 hover:bg-black/5 rounded-full transition-colors">
-            <ChevronRightIcon className="w-4 h-4 text-foreground/60" />
+            <ChevronRightIcon className="w-3.5 h-3.5 text-foreground/60" />
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-7 gap-1 mb-2">
+      <div className="grid grid-cols-7 gap-0.5 mb-1">
         {weekDays.map(d => (
-          <div key={d} className="text-center text-[10px] font-bold text-muted-foreground/40 py-1">{d}</div>
+          <div key={d} className="text-center text-[9px] font-bold text-muted-foreground/40 py-0.5">{d}</div>
         ))}
       </div>
 
-      <div className="grid grid-cols-7 gap-1">
+      <div className="grid grid-cols-7 gap-0.5">
         {Array.from({ length: firstDay }).map((_, i) => (
           <div key={`empty-${i}`} />
         ))}
@@ -73,9 +73,9 @@ const CustomCalendar = ({ value, onSelect }: { value: string, onSelect: (date: s
             <button
               key={d}
               onClick={() => onSelect(formatDate(d))}
-              className={`aspect-square flex items-center justify-center text-xs rounded-lg transition-all
+              className={`aspect-square flex items-center justify-center text-[10px] rounded-md transition-all
                 ${selected 
-                  ? 'bg-primary text-white font-bold shadow-lg shadow-primary/20' 
+                  ? 'bg-primary text-white font-bold shadow-md shadow-primary/20' 
                   : today 
                     ? 'text-primary font-bold bg-primary/5' 
                     : 'text-foreground hover:bg-black/5'
@@ -87,16 +87,16 @@ const CustomCalendar = ({ value, onSelect }: { value: string, onSelect: (date: s
         })}
       </div>
 
-      <div className="mt-4 pt-4 border-t border-black/5 flex items-center justify-between">
+      <div className="mt-2 pt-2 border-t border-black/5 flex items-center justify-between">
         <button 
           onClick={() => onSelect('')}
-          className="text-[11px] font-bold text-primary hover:opacity-80 transition-opacity"
+          className="text-[10px] font-bold text-primary hover:opacity-80 transition-opacity"
         >
           清除
         </button>
         <button 
           onClick={() => onSelect(new Date().toISOString().split('T')[0])}
-          className="text-[11px] font-bold text-primary hover:opacity-80 transition-opacity"
+          className="text-[10px] font-bold text-primary hover:opacity-80 transition-opacity"
         >
           今天
         </button>
@@ -116,10 +116,37 @@ interface SelectorProps {
   children?: React.ReactNode;
   className?: string;
   dropdownWidth?: string;
+  triggerMode?: 'hover' | 'click';
+  direction?: 'up' | 'down';
 }
 
-const SelectorPill = ({ icon, label, value, options, onSelect, isOpen, onToggle, children, className, dropdownWidth }: SelectorProps) => {
+const SelectorPill = ({ 
+  icon, label, value, options, onSelect, isOpen, onToggle, children, className, dropdownWidth,
+  triggerMode = 'click',
+  direction = 'up'
+}: SelectorProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = () => {
+    if (triggerMode !== 'hover') return;
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    
+    // Slight delay before opening to prevent accidental triggers
+    timeoutRef.current = setTimeout(() => {
+      if (!isOpen) onToggle();
+    }, 200);
+  };
+
+  const handleMouseLeave = () => {
+    if (triggerMode !== 'hover') return;
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    
+    // Forgiving delay before closing (Hot Zone optimization)
+    timeoutRef.current = setTimeout(() => {
+      if (isOpen) onToggle();
+    }, 300);
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -127,14 +154,27 @@ const SelectorPill = ({ icon, label, value, options, onSelect, isOpen, onToggle,
         onToggle();
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isOpen, onToggle]);
+    if (triggerMode === 'click') {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen, onToggle, triggerMode]);
 
   return (
-    <div className="relative inline-block" ref={containerRef}>
+    <div 
+      className="relative inline-block" 
+      ref={containerRef}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <button 
-        onClick={onToggle}
+        onClick={(e) => {
+          e.preventDefault();
+          if (triggerMode === 'click') onToggle();
+        }}
         className={className || `flex items-center gap-1.5 px-3 py-1.5 rounded-full border transition-all text-[11px] font-medium whitespace-nowrap
           ${isOpen 
             ? 'bg-primary/10 border-primary/30 text-primary shadow-sm' 
@@ -148,32 +188,38 @@ const SelectorPill = ({ icon, label, value, options, onSelect, isOpen, onToggle,
 
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 8, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 8, scale: 0.95 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className={`absolute bottom-full left-0 mb-2 ${dropdownWidth || 'w-48'} bg-white rounded-2xl shadow-2xl border border-black/5 overflow-hidden z-[100] py-1`}
-          >
-            <div className="px-4 py-2 text-[10px] font-bold text-muted-foreground/50 uppercase tracking-wider border-b border-black/5 mb-1 bg-black/[0.01]">
-              {label}
-            </div>
-            {children ? children : (
-              options?.map((opt) => (
-                <button
-                  key={opt}
-                  onClick={() => {
-                    onSelect(opt);
-                    onToggle();
-                  }}
-                  className="w-full text-left px-4 py-2.5 text-xs hover:bg-black/5 flex items-center justify-between transition-colors"
-                >
-                  <span className={value === opt ? 'text-primary font-bold' : 'text-foreground'}>{opt}</span>
-                  {value === opt && <Check className="w-3 h-3 text-primary" />}
-                </button>
-              ))
+          <>
+            {/* Hot Zone Bridge - Invisible div to bridge the gap between button and dropdown */}
+            {triggerMode === 'hover' && (
+              <div className={`absolute ${direction === 'up' ? 'bottom-full mb-0' : 'top-full mt-0'} left-0 w-full h-4 ${direction === 'up' ? 'translate-y-2' : '-translate-y-2'} z-[90]`} />
             )}
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: direction === 'up' ? 8 : -8, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: direction === 'up' ? 8 : -8, scale: 0.95 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className={`absolute ${direction === 'up' ? 'bottom-full mb-1.5' : 'top-full mt-1.5'} left-0 ${dropdownWidth || 'w-48'} bg-white rounded-2xl shadow-2xl border border-black/5 overflow-hidden z-[110] py-0.5`}
+            >
+              <div className="px-4 py-2 text-[10px] font-bold text-muted-foreground/50 uppercase tracking-wider border-b border-black/5 mb-1 bg-black/[0.01]">
+                {label}
+              </div>
+              {children ? children : (
+                options?.map((opt) => (
+                  <button
+                    key={opt}
+                    onClick={() => {
+                      onSelect(opt);
+                      onToggle();
+                    }}
+                    className="w-full text-left px-4 py-2.5 text-xs hover:bg-black/5 flex items-center justify-between transition-colors"
+                  >
+                    <span className={value === opt ? 'text-primary font-bold' : 'text-foreground'}>{opt}</span>
+                    {value === opt && <Check className="w-3 h-3 text-primary" />}
+                  </button>
+                ))
+              )}
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </div>
@@ -280,7 +326,7 @@ export const AIDialogueBox = () => {
             className="w-full flex flex-col"
           >
             {/* Structured Input Area */}
-            <div className="p-8 pb-4 flex-1">
+            <div className="p-6 pb-3 flex-1">
               <div className="flex flex-wrap items-center gap-x-1.5 gap-y-3 text-sm md:text-base text-foreground font-medium leading-relaxed">
                 <span className="text-foreground/40 shrink-0">我想在</span>
                 <SelectorPill 
@@ -291,6 +337,8 @@ export const AIDialogueBox = () => {
                   onToggle={() => toggleSelector('departureDate')}
                   className={inlineSelectorClass}
                   dropdownWidth="w-auto"
+                  triggerMode="hover"
+                  direction="down"
                 >
                   <CustomCalendar 
                     value={selections.departureDate}
@@ -310,6 +358,8 @@ export const AIDialogueBox = () => {
                   onToggle={() => toggleSelector('arrivalDate')}
                   className={inlineSelectorClass}
                   dropdownWidth="w-auto"
+                  triggerMode="hover"
+                  direction="down"
                 >
                   <CustomCalendar 
                     value={selections.arrivalDate}
@@ -329,6 +379,8 @@ export const AIDialogueBox = () => {
                   isOpen={activeSelector === 'from'}
                   onToggle={() => toggleSelector('from')}
                   className={inlineSelectorClass}
+                  triggerMode="hover"
+                  direction="down"
                 >
                   <div className="p-2 flex flex-col gap-2">
                     <div className="relative">
@@ -366,6 +418,8 @@ export const AIDialogueBox = () => {
                   isOpen={activeSelector === 'to'}
                   onToggle={() => toggleSelector('to')}
                   className={inlineSelectorClass}
+                  triggerMode="hover"
+                  direction="down"
                 >
                   <div className="p-2 flex flex-col gap-2">
                     <div className="relative">
@@ -403,6 +457,8 @@ export const AIDialogueBox = () => {
                   isOpen={activeSelector === 'via'}
                   onToggle={() => toggleSelector('via')}
                   className={inlineSelectorClass}
+                  triggerMode="hover"
+                  direction="down"
                 >
                   <div className="p-2 flex flex-col gap-2">
                     <div className="relative">
@@ -443,6 +499,8 @@ export const AIDialogueBox = () => {
                   isOpen={activeSelector === 'preference'}
                   onToggle={() => toggleSelector('preference')}
                   className={inlineSelectorClass}
+                  triggerMode="hover"
+                  direction="down"
                 />
                 
                 <div className="flex-1 min-w-[120px] flex items-center gap-2">
